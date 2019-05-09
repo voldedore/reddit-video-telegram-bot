@@ -17,7 +17,7 @@ import (
 // Reddit Video scrapper
 func RedditVideoBot() {
 	b, err := tb.NewBot(tb.Settings{
-		Token:  os.Getenv("SECRET_TOKEN"),
+		Token:  os.Getenv("REDDIT_VID_BOT_SECRET_TOKEN"),
 		Poller: &tb.LongPoller{Timeout: 10 * time.Second},
 	})
 
