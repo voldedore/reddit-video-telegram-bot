@@ -124,5 +124,4 @@ func getJson(url string) []byte {
 
 func main() {
 	go RedditVideoBot()
-	select {}
 }
