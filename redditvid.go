@@ -35,8 +35,9 @@ func RedditVideoBot() {
 
 		//log.Print(m.Payload)
 		//log.Print(wantedUrl)
-
-		b.Send(m.Sender, wantedUrl)
+		if wantedUrl != "" {
+			b.Send(m.Sender, wantedUrl)
+		}
 	})
 
 	b.Handle(tb.OnQuery, func(q *tb.Query) {
@@ -71,6 +72,9 @@ func RedditVideoBot() {
 }
 
 func parseJson(json []byte) string {
+	if json == nil {
+		return ""
+	}
 
 	// Check if error was received
 	output, err := jsonparser.GetString(json, "message")
@@ -83,7 +87,7 @@ func parseJson(json []byte) string {
 	output, err = jsonparser.GetString(json, "[0]", "data", "children", "[0]", "data", "secure_media", "reddit_video", "fallback_url")
 	if err != nil {
 		log.Print(string(json[:]))
-		log.Fatal(err)
+		log.Print(err)
 	} else {
 		return output
 	}
@@ -97,7 +101,8 @@ func getJson(url string) []byte {
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatalln(err)
+		log.Print(err)
+		return nil
 	}
 
 	req.Header.Set("User-Agent", "telegram-bot:reddit-video:v1.0.0")
@@ -105,7 +110,7 @@ func getJson(url string) []byte {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	} else {
 
 		defer resp.Body.Close()
@@ -113,7 +118,7 @@ func getJson(url string) []byte {
 		body, err := ioutil.ReadAll(resp.Body)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		} else {
 			return body
 		}
