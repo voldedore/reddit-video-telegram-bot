@@ -1,13 +1,10 @@
 package redditvid
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/buger/jsonparser"
@@ -40,32 +37,8 @@ func RedditVideoBot() {
 		}
 	})
 
-	b.Handle(tb.OnQuery, func(q *tb.Query) {
-		if q.Text != "" {
-			// Declaration of G Translate url (our beloved sister)
-			googleTranslateUrl := "https://translate.google.com.vn/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q="
-
-			// List of result for inline query
-			results := make(tb.Results, 1)
-
-			// The one we need
-			result := &tb.AudioResult{
-				Title: q.Text,
-				URL:   googleTranslateUrl + url.QueryEscape(q.Text),
-			}
-
-			results[0] = result
-			results[0].SetResultID(strconv.Itoa(0))
-
-			err := b.Answer(q, &tb.QueryResponse{
-				Results:   results,
-				CacheTime: 60, // in sec
-			})
-
-			if err != nil {
-				fmt.Println(err)
-			}
-		}
+	b.Handle(tb.OnText, func(m *tb.Message) {
+		b.Send(m.Sender, "Sorry, this feature is currently not supported.")
 	})
 
 	b.Start()
