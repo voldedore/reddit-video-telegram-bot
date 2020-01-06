@@ -29,6 +29,13 @@ Chat to the bot, then
 		 This one
 	```
 	
+	And a workaround to hang the app: add `select {}` in the end of the main fn.
+	```
+	func main() {
+		go RedditVideoBot()
+		select {} 
+	}    
+	```
 	
 2. Run `go install`.
 3. `export SECRET_TOKEN=your_telegram_bot_token`.
