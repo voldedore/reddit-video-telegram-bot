@@ -38,5 +38,5 @@ Chat to the bot, then
 	```
 	
 2. Run `go install`.
-3. `export SECRET_TOKEN=your_telegram_bot_token`.
+3. `export REDDIT_VID_BOT_SECRET_TOKEN=your_telegram_bot_token`.
 4. Run `$GOPATH/bin/redditvid`.
